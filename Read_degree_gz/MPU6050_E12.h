@@ -20,7 +20,7 @@ protected:
   ADDR_Setup Address;
 public:
   uint16_t freq_MPU6050 = 100;
-  float  Degree_to_Radian = 0.017453f;
+  #define Degree_to_Radian 0.017453f
 
   MPU6050(){
     //
@@ -73,6 +73,14 @@ public:
   }_Angular;
 
   _Angular Angular;
+  _Angular Part_Angular{
+    .Deg_x = 0,
+    .Deg_y = 0,
+    .Deg_z = 0,
+    .Rad_x = 0,
+    .Rad_y = 0,
+    .Rad_z = 0
+  };
 
   void MPU_i2c_writeReg8(uint8_t reg, uint8_t data8);
   void MPU_init();

@@ -9,8 +9,7 @@ MPU6050 _MPU6050(I2C_SDA_Pin, I2C_SCL_Pin, freq_MPU6050);
 long Part_Time = 0;
 
 float Degree[3] = { 0 };
-
-uint8_t X = 0;
+float Radian[3] = { 0 };
 
 
 void setup() {
@@ -23,15 +22,17 @@ void setup() {
 void loop() {
   if ((millis() - Part_Time) > 10) {
     Part_Time = millis();
-    _MPU6050.Degree(Degree);
 
-    Serial.print(Degree[0]);
-    Serial.print(" , ");
-    Serial.print(Degree[1]);
-    Serial.print(" , ");
-    Serial.print(Degree[2]);
-    Serial.println(" ");
+    // _MPU6050.Degree(Degree);
+    // _MPU6050.Radian(Radian);
+    // Serial.print(Degree[2], 6);
+    // Serial.print(" , ");
+    // Serial.println(Radian[2], 6);
 
-    // Serial.println(_MPU6050.mpuData_Offset.gz);
+    _MPU6050.Degree();
+    _MPU6050.Radian();
+    Serial.print(_MPU6050.Angular.Deg_z, 6);
+    Serial.print(" , ");
+    Serial.println(_MPU6050.Angular.Rad_z, 6);
   }
 }

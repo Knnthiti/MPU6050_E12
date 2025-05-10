@@ -59,10 +59,6 @@ void MPU6050 :: gyro_calib(){
     Offset_gx += mpuData.gx;
     Offset_gy += mpuData.gy;
     Offset_gz += mpuData.gz;
-
-    // mpuData_Offset.gx += mpuData.gx;
-    // mpuData_Offset.gx += mpuData.gy;
-    // mpuData_Offset.gx += mpuData.gz;
     delay(1);
   }
 
@@ -77,14 +73,50 @@ void MPU6050 :: Degree(){
   Angular.Deg_x += (float)((mpuData.gx - mpuData_Offset.gx)/ (131.0f * freq_MPU6050));
   Angular.Deg_y += (float)((mpuData.gy - mpuData_Offset.gy)/ (131.0f * freq_MPU6050));
   Angular.Deg_z += (float)((mpuData.gz - mpuData_Offset.gz)/ (131.0f * freq_MPU6050));
+
+  if(abs(Angular.Deg_x-Part_Angular.Deg_x) < 0.002){
+    Angular.Deg_x = Part_Angular.Deg_x;
+  }else{
+    Part_Angular.Deg_x = Angular.Deg_x;
+  }
+
+  if(abs(Angular.Deg_y-Part_Angular.Deg_y) < 0.002){
+    Angular.Deg_y = Part_Angular.Deg_y;
+  }else{
+    Part_Angular.Deg_y = Angular.Deg_y;
+  }
+
+  if(abs(Angular.Deg_z-Part_Angular.Deg_z) < 0.002){
+    Angular.Deg_z = Part_Angular.Deg_z;
+  }else{
+    Part_Angular.Deg_z = Angular.Deg_z;
+  }
 }
 
 void MPU6050 :: Radian(){
   MPU_get_gyro();
 
-  Angular.Rad_x = (float)((mpuData.gx - mpuData_Offset.gx)/ (131.0f * freq_MPU6050)*Degree_to_Radian);
-  Angular.Rad_y = (float)((mpuData.gy - mpuData_Offset.gy)/ (131.0f * freq_MPU6050)*Degree_to_Radian);
-  Angular.Rad_z = (float)((mpuData.gz - mpuData_Offset.gz)/ (131.0f * freq_MPU6050)*Degree_to_Radian);
+  Angular.Rad_x += (float)((mpuData.gx - mpuData_Offset.gx)/ (131.0f * freq_MPU6050)*Degree_to_Radian);
+  Angular.Rad_y += (float)((mpuData.gy - mpuData_Offset.gy)/ (131.0f * freq_MPU6050)*Degree_to_Radian);
+  Angular.Rad_z += (float)((mpuData.gz - mpuData_Offset.gz)/ (131.0f * freq_MPU6050)*Degree_to_Radian);
+
+  if(abs(Angular.Rad_x-Part_Angular.Rad_x) < 0.00005){
+    Angular.Rad_x = Part_Angular.Rad_x;
+  }else{
+    Part_Angular.Rad_x = Angular.Rad_x;
+  }
+
+  if(abs(Angular.Rad_y-Part_Angular.Rad_y) < 0.00005){
+    Angular.Rad_y = Part_Angular.Rad_y;
+  }else{
+    Part_Angular.Rad_y = Angular.Rad_y;
+  }
+
+  if(abs(Angular.Rad_z-Part_Angular.Rad_z) < 0.00005){
+    Angular.Rad_z = Part_Angular.Rad_z;
+  }else{
+    Part_Angular.Rad_z = Angular.Rad_z;
+  }
 }
 
 void MPU6050 :: Degree(float _Degree[]){
@@ -93,12 +125,48 @@ void MPU6050 :: Degree(float _Degree[]){
   _Degree[0] += (float)((mpuData.gx - mpuData_Offset.gx)/ (131.0f * freq_MPU6050));
   _Degree[1] += (float)((mpuData.gy - mpuData_Offset.gy)/ (131.0f * freq_MPU6050));
   _Degree[2] += (float)((mpuData.gz - mpuData_Offset.gz)/ (131.0f * freq_MPU6050));
+
+  if(abs(_Degree[0]-Part_Angular.Deg_x) < 0.002){
+    _Degree[0] = Part_Angular.Deg_x;
+  }else{
+    Part_Angular.Deg_x = _Degree[0];
+  }
+
+  if(abs(_Degree[1]-Part_Angular.Deg_y) < 0.002){
+    _Degree[1] = Part_Angular.Deg_y;
+  }else{
+    Part_Angular.Deg_y = _Degree[1];
+  }
+
+  if(abs(_Degree[2]-Part_Angular.Deg_z) < 0.002){
+    _Degree[2] = Part_Angular.Deg_z;
+  }else{
+    Part_Angular.Deg_z = _Degree[2];
+  }
 }
 
 void MPU6050 :: Radian(float _Radian[]){
   MPU_get_gyro();
 
-  _Radian[0] = (float)((mpuData.gx - mpuData_Offset.gx)/ (131.0f * freq_MPU6050)*Degree_to_Radian);
-  _Radian[1] = (float)((mpuData.gy - mpuData_Offset.gy)/ (131.0f * freq_MPU6050)*Degree_to_Radian);
-  _Radian[2] = (float)((mpuData.gz - mpuData_Offset.gz)/ (131.0f * freq_MPU6050)*Degree_to_Radian);
+  _Radian[0] += (float)((mpuData.gx - mpuData_Offset.gx)/ (131.0f * freq_MPU6050))*Degree_to_Radian;
+  _Radian[1] += (float)((mpuData.gy - mpuData_Offset.gy)/ (131.0f * freq_MPU6050))*Degree_to_Radian;
+  _Radian[2] += (float)((mpuData.gz - mpuData_Offset.gz)/ (131.0f * freq_MPU6050))*Degree_to_Radian;
+
+  if(abs(_Radian[0]-Part_Angular.Rad_x) < 0.00005){
+    _Radian[0] = Part_Angular.Rad_x;
+  }else{
+    Part_Angular.Rad_x = _Radian[0];
+  }
+
+  if(abs(_Radian[1]-Part_Angular.Rad_y) < 0.00005){
+    _Radian[1] = Part_Angular.Rad_y;
+  }else{
+    Part_Angular.Rad_y = _Radian[1];
+  }
+
+  if(abs(_Radian[2]-Part_Angular.Rad_z) < 0.00005){
+    _Radian[2] = Part_Angular.Rad_z;
+  }else{
+    Part_Angular.Rad_z = _Radian[2];
+  }
 }
