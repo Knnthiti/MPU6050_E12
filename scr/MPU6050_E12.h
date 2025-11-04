@@ -1,3 +1,6 @@
+#ifndef MPU6050_E12
+#define MPU6050_E12
+
 #include <Wire.h>
 #include <Arduino.h>
 
@@ -96,3 +99,5 @@ public:
   void Degree(float _Degree[]);
   void Radian(float _Radian[]);
 };
+
+#endif
