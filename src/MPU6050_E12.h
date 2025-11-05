@@ -96,6 +96,8 @@ public:
 
   void gyro_calib();
 
+  void Reset();
+
   void Degree();
   void Radian();
 
