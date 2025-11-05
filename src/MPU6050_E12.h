@@ -25,6 +25,9 @@ public:
   uint16_t freq_MPU6050 = 100;
   #define Degree_to_Radian 0.017453f
 
+  float dir_Deg = 0.003;
+  float dir_Rad = 0.00005;
+
   MPU6050(){
     //
   }

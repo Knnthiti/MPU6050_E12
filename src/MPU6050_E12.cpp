@@ -67,6 +67,16 @@ void MPU6050 :: gyro_calib(){
   mpuData_Offset.gz = Offset_gz/2000.0f;
 }
 
+void MPU6050 :: Reset(){
+  Angular.Deg_x = 0.0;
+  Angular.Deg_y = 0.0;
+  Angular.Deg_z = 0.0;
+
+  Angular.Rad_x = 0.0;
+  Angular.Rad_y = 0.0;
+  Angular.Rad_z = 0.0;
+}
+
 void MPU6050 :: Degree(){
   MPU_get_gyro();
 
@@ -126,19 +136,19 @@ void MPU6050 :: Degree(float _Degree[]){
   _Degree[1] += (float)((mpuData.gy - mpuData_Offset.gy)/ (16.4f * freq_MPU6050));
   _Degree[2] += (float)((mpuData.gz - mpuData_Offset.gz)/ (16.4f * freq_MPU6050));
 
-  if(abs(_Degree[0]-Part_Angular.Deg_x) < 0.002){
+  if(abs(_Degree[0]-Part_Angular.Deg_x) < dir_Deg){
     _Degree[0] = Part_Angular.Deg_x;
   }else{
     Part_Angular.Deg_x = _Degree[0];
   }
 
-  if(abs(_Degree[1]-Part_Angular.Deg_y) < 0.002){
+  if(abs(_Degree[1]-Part_Angular.Deg_y) < dir_Deg){
     _Degree[1] = Part_Angular.Deg_y;
   }else{
     Part_Angular.Deg_y = _Degree[1];
   }
 
-  if(abs(_Degree[2]-Part_Angular.Deg_z) < 0.002){
+  if(abs(_Degree[2]-Part_Angular.Deg_z) < dir_Deg){
     _Degree[2] = Part_Angular.Deg_z;
   }else{
     Part_Angular.Deg_z = _Degree[2];
@@ -152,19 +162,19 @@ void MPU6050 :: Radian(float _Radian[]){
   _Radian[1] += (float)((mpuData.gy - mpuData_Offset.gy)/ (16.4f * freq_MPU6050))*Degree_to_Radian;
   _Radian[2] += (float)((mpuData.gz - mpuData_Offset.gz)/ (16.4f * freq_MPU6050))*Degree_to_Radian;
 
-  if(abs(_Radian[0]-Part_Angular.Rad_x) < 0.00005){
+  if(abs(_Radian[0]-Part_Angular.Rad_x) < dir_Rad){
     _Radian[0] = Part_Angular.Rad_x;
   }else{
     Part_Angular.Rad_x = _Radian[0];
   }
 
-  if(abs(_Radian[1]-Part_Angular.Rad_y) < 0.00005){
+  if(abs(_Radian[1]-Part_Angular.Rad_y) < dir_Rad){
     _Radian[1] = Part_Angular.Rad_y;
   }else{
     Part_Angular.Rad_y = _Radian[1];
   }
 
-  if(abs(_Radian[2]-Part_Angular.Rad_z) < 0.00005){
+  if(abs(_Radian[2]-Part_Angular.Rad_z) < dir_Rad){
     _Radian[2] = Part_Angular.Rad_z;
   }else{
     Part_Angular.Rad_z = _Radian[2];
